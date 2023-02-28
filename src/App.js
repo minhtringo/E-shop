@@ -1,24 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import Header from './Component/Layout/Header'
+import Footer from './Component/Layout/Footer';
+import MenuLeft from './Component/Layout/MenuLeft';
+import MenuAcc from './Component/Layout/MenuAcc';
+import { useLocation } from 'react-router-dom';
+import { ProductProvide } from './Context/Context';
 
-function App() {
+function App(props) {
+
+  let params = useLocation()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ProductProvide>
+        <Header />
+        <section>
+          <div className='container'>
+            <div className='row'>
+              {
+                params['pathname'].includes('cart') || params['pathname'].includes('login') ? "" : (params['pathname'].includes('account') ? <MenuAcc /> : <MenuLeft />)
+              }
+              {props.children}
+            </div>
+          </div>
+        </section>
+        <Footer />
+      </ProductProvide>
+    </>
   );
 }
 
